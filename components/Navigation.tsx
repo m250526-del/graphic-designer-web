@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Container from "./Container";
-import Button from "./Button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, MessageCircle, Mail } from "lucide-react";
 
