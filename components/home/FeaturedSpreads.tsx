@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, X } from "lucide-react";
+import { X } from "lucide-react";
 import Container from "@/components/Container";
 import Section from "@/components/Section";
 
-const ROW_HEIGHT = 280;
 
 type Photo = {
   src: string;
@@ -76,17 +75,11 @@ const campaigns: Campaign[] = [
 ];
 
 function PhotoCard({ photo, onExpand }: { photo: Photo; onExpand: (photo: Photo) => void }) {
-  const [open, setOpen] = useState(false);
-
   return (
-    <div
-      className="relative flex flex-col mx-6"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-    >
+    <div className="relative flex flex-col mx-6">
       <div
-        style={{ height: ROW_HEIGHT, aspectRatio: `${photo.width} / ${photo.height}` }}
-        className="cursor-pointer"
+        style={{ aspectRatio: `${photo.width} / ${photo.height}` }}
+        className="cursor-pointer w-full max-w-[400px] h-auto sm:w-auto sm:max-w-none sm:h-[280px]"
         onClick={() => onExpand(photo)}
       >
         {photo.type === "video" ? (
@@ -96,32 +89,9 @@ function PhotoCard({ photo, onExpand }: { photo: Photo; onExpand: (photo: Photo)
         )}
       </div>
 
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full bg-[#14171A] text-alabaster py-3 flex flex-col items-center gap-1"
-      >
+      <div className="w-full bg-[#14171A] text-alabaster py-3 flex items-center justify-center">
         <span className="font-mono text-xs text-center px-2">{photo.caption}</span>
-        <motion.span animate={{ rotate: open ? 180 : 0 }} className="text-gold">
-          <ChevronDown size={14} />
-        </motion.span>
-      </button>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden bg-[#14171A] text-alabaster absolute top-full left-0 w-full z-20"
-          >
-            <div className="px-4 py-3 space-y-1 font-mono text-xs">
-              {photo.story.map((line, i) => (
-                <p key={i}>{line}</p>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </div>
     </div>
   );
 }
